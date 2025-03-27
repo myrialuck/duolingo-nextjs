@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import db from "./drizzle";
 import {
@@ -266,15 +266,16 @@ export const getTopTenUsers = cache(async () => {
 });
 
 export const getIsAdmin = cache(async () => {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
+    console.error("User not found");
     return false;
   }
-
+console.log(userId);
   const isAdmin = await db.query.admin.findFirst({
     where: eq(admin.userId, userId),
   });
-
+console.log(isAdmin);
   return !!isAdmin;
 });

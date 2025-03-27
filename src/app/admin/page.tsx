@@ -2,7 +2,8 @@ import { getIsAdmin } from "@/db/queries";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
-const App = dynamic(() => import("./app"), { ssr: false });
+// const App = dynamic(() => import("./app"), { ssr: false });
+const App = dynamic(() => import("./app"), { ssr: true });
 
 const AdminPage = async () => {
   const isAdmin = await getIsAdmin();

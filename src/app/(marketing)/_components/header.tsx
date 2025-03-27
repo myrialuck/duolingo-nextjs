@@ -26,22 +26,14 @@ export const Header = () => {
         <ClerkLoading>
           <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
         </ClerkLoading>
-        <ClerkLoaded>
+        {/* <ClerkLoaded> */}
           <SignedIn>
-            <UserButton afterSignOutUrl="/" />
+            <UserButton />
           </SignedIn>
           <SignedOut>
-            <SignInButton
-              mode="modal"
-              afterSignInUrl="/learn"
-              afterSignUpUrl="/learn"
-            >
-              <Button size="lg" variant="ghost">
-                Login
-              </Button>
-            </SignInButton>
+            <SignInButton mode="modal" />
           </SignedOut>
-        </ClerkLoaded>
+        {/* </ClerkLoaded> */}
       </div>
     </header>
   );

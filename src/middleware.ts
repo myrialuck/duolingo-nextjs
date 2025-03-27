@@ -1,23 +1,14 @@
-import { authMiddleware } from "@clerk/nextjs";
+// middleware.ts
+// This file is a Clerk middleware that protects all routes except for static files and the root route.
 
-// See https://clerk.com/docs/references/nextjs/auth-middleware
-// for more information about configuring your Middleware
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default authMiddleware({
-  //Allow signed out users to access the specified routes:
-  publicRoutes: ["/", "/api/webhooks/stripe"],
-  //Prevent the specified routes from accessing
-  ///authentication information:
-  //ignoredRoutes: ['/no-auth-in-this-route'],
+const isProtectedRoute = createRouteMatcher(["/protected"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) await auth.protect();
 });
 
 export const config = {
-  matcher: [
-    // Exclude files with a "." followed by an extension, which are typically static files.
-    // Exclude files in the _next directory, which are Next.js internals.
-
-    "/((?!.+\\.[\\w]+$|_next).*)",
-    // Re-include any files in the api or trpc folders that might have an extension
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/((?!.*\\..*|_next).*)"],
 };
